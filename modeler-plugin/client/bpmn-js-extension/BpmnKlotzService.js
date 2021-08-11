@@ -1,7 +1,7 @@
 const ELEMENTS = {
-  0: 'bpmn:StartEvent',
-  1: 'bpmn:Task',
-  2: 'bpmn:EndEvent'
+  0: {type: 'bpmn:StartEvent', eventDefinitionType: 'bpmn:MessageEventDefinition'},
+  1: {type: 'bpmn:UserTask', },
+  2: {type: 'bpmn:EndEvent'}
 }
 
 export default function BpmnKlotzService(modeling, elementRegistry, canvas) {
@@ -34,11 +34,11 @@ export default function BpmnKlotzService(modeling, elementRegistry, canvas) {
       // add elements
       const parent = canvas.getRootElement();
       arucoCoord.forEach((element, index) => {
-        const type = ELEMENTS[arucoIds[index]];
+        const bpmnElement = ELEMENTS[arucoIds[index]];
         // x/y coords of upper left corner
         const x = element[0][0];
         const y = element[0][1];
-        modeling.createShape({ type }, {x, y}, parent);
+        modeling.createShape({...bpmnElement}, {x, y}, parent);
       }) 
     }
   })
