@@ -1,5 +1,7 @@
 import cv2
 import cv2.aruco as aruco
+import id_to_elements
+
 
 for camera_port in range(0, 10):
     try:
@@ -8,7 +10,6 @@ for camera_port in range(0, 10):
     except:
         pass
 
-ids_to_elements = {0: "StartEvent", 1: "ServiceTask", 2: "EndEvent"}
 
 def capture():
     # Capture frame-by-frame
@@ -20,11 +21,12 @@ def capture():
     bpmn_snapshot = []
     corners, ids, _ = aruco.detectMarkers(gray, aruco_dict, parameters=parameters)
     if len(corners) > 0:
-        for element_id in ids.flatten():
+        for index, element_id in enumerate(ids.flatten()):
+            element_type = id_to_elements.id_to_elements(element_id)
             current_element = {
                   "id": element_id,
-                  "type": ids_to_elements[element_id],
-                  "corners": corners[element_id][0].tolist()
+                  "type": element_type,
+                  "corners": corners[index][0].tolist()
             }
             bpmn_snapshot.append(current_element)
     print(bpmn_snapshot)
