@@ -1,6 +1,10 @@
 import asyncio
-
 import websockets
+import json
+import numpy as np
+import datetime
+import aruco_detector as aruco
+import sys
 
 bpmn_snapshot_data = """
 [
@@ -39,8 +43,23 @@ bpmn_snapshot_data = """
 """
 
 
+def numpy_converter(obj):
+    if isinstance(obj, np.integer):
+        return int(obj)
+    elif isinstance(obj, np.floating):
+        return float(obj)
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif isinstance(obj, datetime.datetime):
+        return obj.__str__()
+
+
 def get_next_bmpn_snapshot():
-    return bpmn_snapshot_data
+    try:
+        return json.dumps(aruco.capture(), default=numpy_converter)
+    except:
+        print("Unexpected error:", sys.exc_info()[0])
+        return json.dumps([])
 
 
 async def bpmn_snapshot_stream(websocket, path):
