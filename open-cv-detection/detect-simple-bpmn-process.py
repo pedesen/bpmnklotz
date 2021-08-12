@@ -6,6 +6,7 @@ import argparse
 
 outputImage = None
 
+
 def read_image_from_commandline():
     arguments_parser = argparse.ArgumentParser()
     arguments_parser.add_argument("-i", "--image", required=True, help="Path to the image")

@@ -2,14 +2,12 @@ import cv2
 import cv2.aruco as aruco
 import id_to_elements
 
-
-for camera_port in range(0, 10):
+for camera_port in range(1, 10):
     try:
         cap = cv2.VideoCapture(camera_port)
         break
     except:
         pass
-
 
 def capture():
     # Capture frame-by-frame
@@ -29,6 +27,5 @@ def capture():
                   "corners": corners[index][0].tolist()
             }
             bpmn_snapshot.append(current_element)
-    print(bpmn_snapshot)
     return bpmn_snapshot
 
