@@ -3,3 +3,12 @@
   -moz-box-shadow:inset 0px 0px 0px 10px #7f01fe;
   box-shadow:inset 0px 0px 0px 10px #7f01fe;
 }
+
+.klotz_canvas {
+  width: 640px;
+  height: 360px;
+  position: absolute;
+  background-color: #ddd;
+  bottom: 10px;
+  right: 10px;
+}

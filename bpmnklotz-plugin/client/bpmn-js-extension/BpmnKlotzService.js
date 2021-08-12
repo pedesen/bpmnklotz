@@ -8,22 +8,46 @@ const ELEMENTS = {
 }
 const WEBSOCKET_URL = 'localhost:5678'
 
+const isSequenceFlow = (element) => {
+  return ['SequenceFlowShort', 'SequenceFlowLong'].includes(element.type);
+}
+
 let enabled = false;
 let socket;
+let klotzCanvas;
 export default function BpmnKlotzService(eventBus, modeling, elementRegistry, canvas) {
   const model = (elements) => {
     // remove all elements
-    const allElements = elementRegistry.getAll();
-    modeling.removeElements(allElements.filter(element => element.type !== "bpmn:Process"));
+    const allElements = elementRegistry.filter(element => element.type !== "bpmn:Process");
+    modeling.removeElements(allElements);
     // add elements
     const parent = canvas.getRootElement();
     elements.forEach((element) => {
+
+      if (isSequenceFlow(element)) {
+        return;
+      }
+
       const bpmnElement = ELEMENTS[element.type];
       // x/y coords of upper left corner
       const x = element.corners[0][0];
       const y = element.corners[0][1];
       modeling.createShape({...bpmnElement}, {x, y}, parent);
-    }) 
+    })
+
+    const sortedElements = elementRegistry.filter(element => element.type !== "bpmn:Process");
+    sortedElements.sort((elA, elB) => elA.x - elB.x);
+    
+    
+    for (let i = 0; i < sortedElements.length; i++) {
+      let next;
+      try {
+        next = sortedElements[i+1]
+        modeling.connect(sortedElements[i], next);
+      } catch {
+        next = null;
+      }
+    }
   }
 
   eventBus.on('editorActions.init', function(event) {
@@ -36,8 +60,8 @@ export default function BpmnKlotzService(eventBus, modeling, elementRegistry, ca
         if (enabled) {
           socket = new WebSocket(`ws://${WEBSOCKET_URL}`);
           socket.addEventListener('message', function (event) {
-            console.log('event.data ', event.data);
-            model(JSON.parse(event.data));
+            const elements = JSON.parse(event.data);
+            model(elements);
           });
           container.classList.add('klotz');
         } else {
