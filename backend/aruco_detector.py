@@ -3,13 +3,13 @@ import cv2.aruco as aruco
 import id_to_elements
 
 def find_camera():
-    for camera_port in range(1, 10):
+    for camera_port in range(0, 10):
         try:
             return cv2.VideoCapture(camera_port)
         except:
             pass
 
-def capture(cap):
+def capture():
     # Capture frame-by-frame
     ret, frame = cap.read()
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
