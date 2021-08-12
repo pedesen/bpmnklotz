@@ -4,4 +4,4 @@ def id_to_elements(id):
     try:
       return ids_to_elements[id]
     except:
-      return "Unknown element type"
+      return "Unknown element type for id:" + id

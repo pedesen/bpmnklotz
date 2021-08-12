@@ -8,7 +8,7 @@ def id_to_elements(id):
     try:
         return ids_to_elements[id]
     except:
-        return "Unknown element type"
+        return "Unknown element type for id:" + id
 
 for camera_port in range(1, 10):
     try:
@@ -31,12 +31,11 @@ while(True):
         gray = aruco.drawDetectedMarkers(frame, corners)
         for index, element_id in enumerate(ids.flatten()):
             element_type = id_to_elements(element_id)
-            current_element = {"id": id, "type": element_type, "corners": corners[index][0]}
+            current_element = {"id": element_id, "type": element_type, "corners": corners[index][0]}
             bpmn_snapshort.append(current_element)
             # draw also in image
-            elm = current_element
-            x = elm['corners'][index][0]
-            y = elm['corners'][index][1]
+            x = current_element['corners'][index][0]
+            y = current_element['corners'][index][1]
             image = cv2.putText(frame, element_type, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX,
                             1, (255, 0, 0), 2, cv2.LINE_AA)
         print(bpmn_snapshort)
