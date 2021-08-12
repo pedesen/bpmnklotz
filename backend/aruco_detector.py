@@ -6,7 +6,7 @@ fixed_camera_port = None
 
 def find_camera():
     if fixed_camera_port:
-        cap = cv2.VideoCapture(fixed_camera_port)
+        return cv2.VideoCapture(fixed_camera_port)
     else:
         for camera_port in range(0, 10):
             try:
