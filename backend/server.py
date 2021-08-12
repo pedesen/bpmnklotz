@@ -2,7 +2,6 @@ import asyncio
 
 import websockets
 
-
 bpmn_snapshot_data = """
 [
   {
@@ -41,27 +40,21 @@ bpmn_snapshot_data = """
 
 
 def get_next_bmpn_snapshot():
-  return bpmn_snapshot_data
+    return bpmn_snapshot_data
 
 
 async def bpmn_snapshot_stream(websocket, path):
-  while True:
-    await websocket.send(get_next_bmpn_snapshot())
-    await asyncio.sleep(1)
+    counter = 0
+    while True:
+        stream_data = get_next_bmpn_snapshot()
+        counter += 1
+        print("( %d ) Send stream data: %s" % (counter, stream_data))
+        await websocket.send(stream_data)
+        await asyncio.sleep(1)
 
+
+print("Start websocket server on ws://127.0.0.1:5678/")
 
 start_server = websockets.serve(bpmn_snapshot_stream, "127.0.0.1", 5678)
-
-
-async def hello(websocket, path):
-  message = await websocket.recv()
-  print(f"Received {message}")
-
-  await websocket.send(bpmn_snapshot_data)
-  print(f"> Send bpmn_snapshot")
-
-
-# start_server = websockets.serve(hello, "localhost", 8765)
-
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
