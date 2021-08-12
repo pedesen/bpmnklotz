@@ -37,7 +37,10 @@ async def bpmn_snapshot_stream(websocket, path):
 
 print("Start websocket server on ws://127.0.0.1:5678/")
 
-cap = aruco_detector.find_camera(1)
+if len(sys.argv) > 1:
+    cap = aruco_detector.find_camera(int(sys.argv[1]))
+else:
+    cap = aruco_detector.find_camera(None)
 start_server = websockets.serve(bpmn_snapshot_stream, "127.0.0.1", 5678)
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
