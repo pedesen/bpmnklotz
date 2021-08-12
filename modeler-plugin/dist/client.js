@@ -97,49 +97,32 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BpmnKlotzService; });
 const ELEMENTS = {
-  0: {type: 'bpmn:StartEvent', eventDefinitionType: 'bpmn:MessageEventDefinition'},
-  1: {type: 'bpmn:UserTask', },
-  2: {type: 'bpmn:EndEvent'}
+  'StartEvent': {type: 'bpmn:StartEvent'},
+  'MessageStartEvent': {type: 'bpmn:StartEvent', eventDefinitionType: 'bpmn:MessageEventDefinition'},
+  "Task": {type: 'bpmn:Task'},
+  "ServiceTask": {type: 'bpmn:ServiceTask'},
+  "UserTask": {type: 'bpmn:UserTask'},
+  "EndEvent": {type: 'bpmn:EndEvent'}
 }
-const WEBSOCKET_URL = 'localhost:8765'
+const WEBSOCKET_URL = 'localhost:5678'
 
 let enabled = false;
 let socket;
 function BpmnKlotzService(eventBus, modeling, elementRegistry, canvas) {
-  const model = () => {
+  const model = (elements) => {
     // remove all elements
     const allElements = elementRegistry.getAll();
     modeling.removeElements(allElements.filter(element => element.type !== "bpmn:Process"));
     // add elements
     const parent = canvas.getRootElement();
-    arucoCoord.forEach((element, index) => {
-      const bpmnElement = ELEMENTS[arucoIds[index]];
+    elements.forEach((element) => {
+      const bpmnElement = ELEMENTS[element.type];
       // x/y coords of upper left corner
-      const x = element[0][0];
-      const y = element[0][1];
+      const x = element.corners[0][0];
+      const y = element.corners[0][1];
       modeling.createShape({...bpmnElement}, {x, y}, parent);
     }) 
   }
-
-  const arucoCoord = [
-    [
-        [229., 409.],
-        [251., 413.],
-        [245., 437.],
-        [222., 432.]
-    ], [
-        [445., 321.],
-        [467., 325.],
-        [465., 346.],
-        [443., 342.]
-    ], [
-        [100., 291.],
-        [122., 294.],
-        [115., 315.],
-        [ 93., 311.]
-    ]
-  ]
-  const arucoIds =  [1,2,0]
 
   eventBus.on('editorActions.init', function(event) {
     var editorActions = event.editorActions;
@@ -151,8 +134,8 @@ function BpmnKlotzService(eventBus, modeling, elementRegistry, canvas) {
         if (enabled) {
           socket = new WebSocket(`ws://${WEBSOCKET_URL}`);
           socket.addEventListener('message', function (event) {
-            console.log('Message from server ', event.data);
-            model();
+            console.log('event.data ', event.data);
+            model(JSON.parse(event.data));
           });
           container.classList.add('klotz');
         } else {
@@ -161,12 +144,6 @@ function BpmnKlotzService(eventBus, modeling, elementRegistry, canvas) {
         }
     });
   });
-
- 
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'k') { model() }
-  })
 }
 
 BpmnKlotzService.$inject = [
