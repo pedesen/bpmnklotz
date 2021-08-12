@@ -25,7 +25,7 @@ async def show_image_with_detections(cap):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-cap = aruco_detector.find_camera()
+cap = aruco_detector.find_camera(1)
 asyncio.run(show_image_with_detections(cap))
 cap.release()
 cv2.destroyAllWindows()

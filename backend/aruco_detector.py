@@ -4,7 +4,7 @@ import id_to_elements
 
 fixed_camera_port = None
 
-def find_camera():
+def find_camera(fixed_camera_port):
     if fixed_camera_port:
         return cv2.VideoCapture(fixed_camera_port)
     else:
@@ -14,7 +14,7 @@ def find_camera():
             except:
                 pass
 
-def capture():
+def capture(cap):
     # Capture frame-by-frame
     ret, frame = cap.read()
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)

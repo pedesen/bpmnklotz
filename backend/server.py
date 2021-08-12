@@ -6,43 +6,6 @@ import datetime
 import aruco_detector
 import sys
 
-bpmn_snapshot_data = """
-[
-  {
-   "id": 0, 
-   "type": "StartEvent", 
-   "corners": [
-       [414, 505],
-       [459, 503],
-       [462, 549],
-       [416, 550]
-    ]
-  }, 
-  {
-   "id": 1, 
-   "type": "ServiceTask", 
-   "corners": [
-       [414, 505],
-       [459, 503],
-       [462, 549],
-       [416, 550]
-    ]
-  }, 
-  {
-   "id": 2, 
-   "type": 
-   "EndEvent", 
-   "corners": [
-       [414, 505],
-       [459, 503],
-       [462, 549],
-       [416, 550]
-      ]
-  }
-]
-"""
-
-
 def numpy_converter(obj):
     if isinstance(obj, np.integer):
         return int(obj)
@@ -74,8 +37,7 @@ async def bpmn_snapshot_stream(websocket, path):
 
 print("Start websocket server on ws://127.0.0.1:5678/")
 
-cap = aruco_detector.find_camera()
+cap = aruco_detector.find_camera(1)
 start_server = websockets.serve(bpmn_snapshot_stream, "127.0.0.1", 5678)
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
-
