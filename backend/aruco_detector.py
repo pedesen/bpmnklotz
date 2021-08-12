@@ -2,12 +2,17 @@ import cv2
 import cv2.aruco as aruco
 import id_to_elements
 
-for camera_port in range(1, 10):
-    try:
-        cap = cv2.VideoCapture(camera_port)
-        break
-    except:
-        pass
+fixed_camera_port = None
+
+if fixed_camera_port:
+    cap = cv2.VideoCapture(fixed_camera_port)
+else:
+    for camera_port in range(1, 10):
+        try:
+            cap = cv2.VideoCapture(camera_port)
+            break
+        except:
+            pass
 
 def capture():
     # Capture frame-by-frame
