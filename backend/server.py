@@ -5,9 +5,9 @@ import websockets
 bpmn_snapshot_data = """
 [
   {
-   'id': 0, 
-   'type': 'StartEvent', 
-   'corners': [
+   "id": 0, 
+   "type": "StartEvent", 
+   "corners": [
        [414, 505],
        [459, 503],
        [462, 549],
@@ -15,9 +15,9 @@ bpmn_snapshot_data = """
     ]
   }, 
   {
-   'id': 1, 
-   'type': 'ServiceTask', 
-   'corners': [
+   "id": 1, 
+   "type": "ServiceTask", 
+   "corners": [
        [414, 505],
        [459, 503],
        [462, 549],
@@ -25,10 +25,10 @@ bpmn_snapshot_data = """
     ]
   }, 
   {
-   'id': 2, 
-   'type': 
-   'EndEvent', 
-   'corners': [
+   "id": 2, 
+   "type": 
+   "EndEvent", 
+   "corners": [
        [414, 505],
        [459, 503],
        [462, 549],
