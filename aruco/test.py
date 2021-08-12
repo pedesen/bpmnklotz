@@ -8,7 +8,7 @@ def id_to_elements(id):
     try:
         return ids_to_elements[id]
     except:
-        return "Unknown element type for id:" + id
+        return "Unknown element type for id:" + str(id)
 
 for camera_port in range(1, 10):
     try:
