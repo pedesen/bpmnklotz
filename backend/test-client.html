@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket demo</title>
+</head>
+<body>
+<script>
+            var ws = new WebSocket("ws://127.0.0.1:5678/");
+            var cnt = 0;
+
+            ws.onmessage = function (event) {
+                cnt++;
+                console.log("Counter: "+cnt);
+                console.log("Message: "+event.data);
+            };
+        </script>
+</body>
+</html>
