@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = {
-  name: 'Example Plug-in',
-  script: './dist/client.js'
+  name: 'BPMN Klotz',
+  script: './dist/client.js',
+  menu: './menu/menu.js',
+  style: './style/main.css',
 };
