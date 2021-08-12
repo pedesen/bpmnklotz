@@ -14,6 +14,7 @@ async def show_image_with_detections(cap):
         parameters = aruco.DetectorParameters_create()
 
         corners, ids, _ = aruco.detectMarkers(gray, aruco_dict, parameters=parameters)
+        corners_invert, ids_invert, _ = aruco.detectMarkers( cv2.bitwise_not(gray), aruco_dict, parameters=parameters)
         if len(corners) > 0:
             aruco.drawDetectedMarkers(frame, corners)
             for index, element_id in enumerate(ids.flatten()):
@@ -21,6 +22,16 @@ async def show_image_with_detections(cap):
                 (x,y) = corners[index][0].tolist()[0]
                 cv2.putText(frame, element_type, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX,
                             1, (255, 0, 0), 2, cv2.LINE_AA)
+        elif len(corners_invert) > 0:
+            aruco.drawDetectedMarkers(frame, corners_invert)
+            for index, element_id in enumerate(ids_invert.flatten()):
+                element_type = id_to_elements.id_to_elements(element_id)
+                (x,y) = corners_invert[index][0].tolist()[0]
+                cv2.putText(frame, element_type, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX,
+                            1, (255, 0, 0), 2, cv2.LINE_AA)
+        else:
+            pass
+
         cv2.imshow('BPMNKlotz', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
