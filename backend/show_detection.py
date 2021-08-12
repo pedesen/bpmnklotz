@@ -22,7 +22,7 @@ async def show_image_with_detections(cap):
                 (x,y) = corners[index][0].tolist()[0]
                 cv2.putText(frame, element_type, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX,
                             1, (255, 0, 0), 2, cv2.LINE_AA)
-        elif len(corners_invert) > 0:
+        if len(corners_invert) > 0:
             aruco.drawDetectedMarkers(frame, corners_invert)
             for index, element_id in enumerate(ids_invert.flatten()):
                 element_type = id_to_elements.id_to_elements(element_id)
@@ -36,7 +36,7 @@ async def show_image_with_detections(cap):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-cap = aruco_detector.find_camera(1)
+cap = aruco_detector.find_camera(0)
 asyncio.run(show_image_with_detections(cap))
 cap.release()
 cv2.destroyAllWindows()

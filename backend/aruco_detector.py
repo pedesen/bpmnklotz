@@ -33,7 +33,7 @@ def capture(cap):
                   "corners": corners[index][0].tolist()
             }
             bpmn_snapshot.append(current_element)
-    elif len(corners_invert) > 0:
+    if len(corners_invert) > 0:
         for index, element_id in enumerate(ids_invert.flatten()):
             element_type = id_to_elements.id_to_elements(element_id)
             current_element = {
