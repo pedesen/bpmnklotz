@@ -5,10 +5,11 @@ import aruco_detector
 import asyncio
 
 async def show_image_with_detections(camera):
+    label_color = (0, 0, 0)
+    label_font = cv2.FONT_HERSHEY_DUPLEX
     while(True):
         # Capture frame-by-frame
-        ret, frame = camera.read()
-        # Our operations on the frame come here
+        _, frame = camera.read()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         aruco_dict = aruco.Dictionary_get(aruco.DICT_4X4_50)
         parameters = aruco.DetectorParameters_create()
@@ -20,15 +21,15 @@ async def show_image_with_detections(camera):
             for index, element_id in enumerate(ids.flatten()):
                 element_type = id_to_elements.id_to_elements(element_id)
                 (x,y) = corners[index][0].tolist()[0]
-                cv2.putText(frame, element_type, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX,
-                            1, (255, 0, 0), 2, cv2.LINE_AA)
+                cv2.putText(frame, element_type, (int(x), int(y)), label_font,
+                            1.3, label_color, 2, cv2.LINE_AA)
         if len(corners_invert) > 0:
             aruco.drawDetectedMarkers(frame, corners_invert)
             for index, element_id in enumerate(ids_invert.flatten()):
                 element_type = id_to_elements.id_to_elements(element_id)
                 (x,y) = corners_invert[index][0].tolist()[0]
-                cv2.putText(frame, element_type, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX,
-                            1, (255, 0, 0), 2, cv2.LINE_AA)
+                cv2.putText(frame, element_type, (int(x), int(y)), label_font,
+                            1.3, label_color, 2, cv2.LINE_AA)
         else:
             pass
 
