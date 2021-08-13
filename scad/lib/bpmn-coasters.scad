@@ -11,7 +11,7 @@ id_end = 2;
 id_service = 1;
 id_user = 3;
 
-module gateway(name, symbol, text_color="black", color="gold", symbol_font="bpmn") {
+module gateway(name, symbol, aruco=[], text_color="black", color="gold", symbol_font="bpmn") {
     s = 58;
     d = s * sqrt(2);
     color(color) rotate(45) minkowski()
@@ -28,13 +28,18 @@ module gateway(name, symbol, text_color="black", color="gold", symbol_font="bpmn
         translate([0, d / 2 - 24, 0])
             text(name, size=5.5, halign="center", font=name_font);
         
-        translate([0, d / 2 + 26, 0]) rotate(45) scale(0.7) draw_aruco(name);
+        translate([0, d / 2 + 26, 0]) rotate(45) scale(0.7) draw_marker(aruco);
     }      
 }
 // test:
-// gateway("inclusive", "");
+// gateway("inclusive", "", aruco=[ // 40
+//    [1, 1, 1, 0],
+//    [1, 0, 0, 0],
+//    [1, 1, 1, 0],
+//    [0, 1, 1, 1],
+//]);
 
-module event(name, symbol, text_color="black", color="gold", symbol_font="bpmn") {
+module event(name, symbol, aruco=[], text_color="black", color="gold", symbol_font="bpmn") {
     color(color) cylinder(r=25, h=coaster_height, center=false);
     
     color(text_color)
@@ -44,7 +49,7 @@ module event(name, symbol, text_color="black", color="gold", symbol_font="bpmn")
              
              translate([0, -18, 0]) text(name, size=6, halign="center", font=name_font);
              
-             translate([0, 17, 0]) scale(0.7) draw_aruco(name);
+             translate([0, 17, 0]) scale(0.7) draw_marker(aruco);
          }
     }
 }
@@ -52,7 +57,7 @@ module event(name, symbol, text_color="black", color="gold", symbol_font="bpmn")
 // test:
 // event("start", "");
 
-module task(name, symbol, text_color="black", color="gold", symbol_font="bpmn") {
+module task(name, symbol, aruco=[], text_color="black", color="gold", symbol_font="bpmn") {
     color(color) minkowski() {
         cube([68, 48, coaster_height/2]);
         cylinder(r=2, h=coaster_height/2);
@@ -65,7 +70,7 @@ module task(name, symbol, text_color="black", color="gold", symbol_font="bpmn") 
                 text(symbol, size=10, halign="center", valign="center", font=symbol_font);
              
              translate([0, 0, 0]) text(name, size=6);
-             translate([60, 8, 0]) draw_aruco(name);
+             translate([60, 8, 0]) draw_marker(aruco);
          }
     }
 }

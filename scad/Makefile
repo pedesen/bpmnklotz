@@ -1,4 +1,7 @@
-all: stl/end-event.stl stl/exclusive-gateway.stl stl/end-event.stl stl/exclusive-gateway.stl stl/inclusive-gateway.stl stl/service-task.stl stl/start-event.stl stl/user-task.stl
+SCAD=$(wildcard *-event.scad) $(wildcard *-task.scad) $(wildcard *-gateway.scad)
+STL=$(addprefix stl/,$(addsuffix .stl,$(basename $(SCAD))))
+
+all: $(STL)
 
 stl/%.stl: %.scad
 	flatpak-spawn --host flatpak run org.openscad.OpenSCAD -o $@ $<
