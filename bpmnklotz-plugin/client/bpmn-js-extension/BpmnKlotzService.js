@@ -5,6 +5,7 @@ const ELEMENTS = {
   "EndEvent": {type: 'bpmn:EndEvent'},
   "GatewayInclusive": {type: 'bpmn:InclusiveGateway'},
   "GatewayExclusive": {type: 'bpmn:ExclusiveGateway'},
+  "GatewayParallel": {type: 'bpmn:ParallelGateway'},
   // unused: 
   "Task": {type: 'bpmn:Task'},
   'MessageStartEvent': {type: 'bpmn:StartEvent', eventDefinitionType: 'bpmn:MessageEventDefinition'},
