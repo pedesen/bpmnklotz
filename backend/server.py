@@ -18,9 +18,9 @@ def numpy_converter(obj):
         return obj.__str__()
 
 
-def get_next_bmpn_snapshot(cap):
+def get_next_bmpn_snapshot(camera):
     try:
-        return json.dumps(aruco_detector.capture(cap), default=numpy_converter)
+        return json.dumps(aruco_detector.capture(camera), default=numpy_converter)
     except:
         print("Unexpected error: ", sys.exc_info()[0])
         return json.dumps([])
@@ -29,7 +29,7 @@ def get_next_bmpn_snapshot(cap):
 async def bpmn_snapshot_stream(websocket, path):
     counter = 0
     while True:
-        stream_data = get_next_bmpn_snapshot(cap)
+        stream_data = get_next_bmpn_snapshot(camera)
         if debug:
             counter += 1
             print("( %d ) Send stream data: %s" % (counter, stream_data))
@@ -38,9 +38,9 @@ async def bpmn_snapshot_stream(websocket, path):
 
 ######### Start entry #########
 
-debug = True
+debug = False
 
-cap = aruco_detector.find_camera()
+camera = aruco_detector.find_camera()
 
 start_server = websockets.serve(bpmn_snapshot_stream, "127.0.0.1", 5678)
 if debug:
