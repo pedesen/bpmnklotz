@@ -1,3 +1,8 @@
-include <./bpmn-coasters.scad>
+include <./lib/bpmn-coasters.scad>
 
-gateway("inclusive", "");
+gateway("inclusive", "", aruco=[ // 40
+    [1, 1, 1, 0],
+    [1, 0, 0, 0],
+    [1, 1, 1, 0],
+    [0, 1, 1, 1],
+]);

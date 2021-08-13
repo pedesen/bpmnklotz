@@ -8,7 +8,8 @@ ids_to_elements = {
   31: "SequenceFlowLong",
 
   40: "GatewayInclusive",
-  41: "GatewayExclusive"
+  41: "GatewayExclusive",
+  42: "GatewayParallel",
 }
 
 

@@ -121,12 +121,15 @@ function BpmnKlotzService(eventBus, modeling, elementRegistry, canvas) {
     // add elements
     const parent = canvas.getRootElement();
     elements.forEach((element) => {
-
       if (isSequenceFlow(element)) {
         return;
       }
-
       const bpmnElement = ELEMENTS[element.type];
+
+      if (!bpmnElement) {
+        return
+      }
+
       // x/y coords of upper left corner
       const x = element.corners[0][0];
       const y = element.corners[0][1];
@@ -136,15 +139,10 @@ function BpmnKlotzService(eventBus, modeling, elementRegistry, canvas) {
     const sortedElements = elementRegistry.filter(element => element.type !== "bpmn:Process");
     sortedElements.sort((elA, elB) => elA.x - elB.x);
     
-    
     for (let i = 0; i < sortedElements.length; i++) {
-      let next;
       try {
-        next = sortedElements[i+1]
-        modeling.connect(sortedElements[i], next);
-      } catch {
-        next = null;
-      }
+        modeling.connect(sortedElements[i], sortedElements[i+1]);
+      } catch {}
     }
   }
 

@@ -1,45 +1,3 @@
-aruco_data = [
-[[ "start", // 0
-    [0, 1, 0, 0],
-    [1, 0, 1, 0],
-    [1, 1, 0, 0],
-    [1, 1, 0, 1],
-]],
-
-[ "service", [ // 1
-    [1, 1, 1, 1],
-    [0, 0, 0, 0],
-    [0, 1, 1, 0],
-    [0, 1, 0, 1],
-]],
-[ "user", // 3
-[
-    [0, 1, 1, 0],
-    [0, 1, 1, 0],
-    [1, 0, 1, 1],
-    [1, 0, 0, 1],
-]],
-[ "end", [ // 2
-    [1, 1, 0, 0],
-    [1, 1, 0, 0],
-    [1, 1, 0, 1],
-    [0, 0, 1, 0],
-]],
-
-[ "inclusive", [ // 40
-    [1, 1, 1, 0],
-    [1, 1, 1, 0],
-    [0, 1, 0, 1],
-    [1, 0, 0, 0],
-]], 
-[ "exclusive", [ // 41
-    [1, 1, 1, 0],
-    [1, 1, 1, 0],
-    [0, 1, 0, 1],
-    [1, 0, 0, 0],
-]],
-];
-
 diameter = 50;
 aruco_data_height= 1;
 tol = 0.15;
@@ -65,11 +23,8 @@ module aruco_frame() {
     }
 }
 
-module draw_aruco(name) {
-    block = search(name, aruco_data);
-    aruco(aruco_data[block[0]][1]);
-}
-module aruco(data, color=1) {
+// use https://chev.me/arucogen/ to generate the marker data
+module draw_marker(data, color=1) {
     translate([-cw*(4+2)/2, -cw*(4+2)/2, 0]){
         aruco_frame();
         
@@ -81,4 +36,3 @@ module aruco(data, color=1) {
         }
     }
 }
-
