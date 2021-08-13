@@ -1,10 +1,13 @@
 const ELEMENTS = {
   'StartEvent': {type: 'bpmn:StartEvent'},
-  'MessageStartEvent': {type: 'bpmn:StartEvent', eventDefinitionType: 'bpmn:MessageEventDefinition'},
-  "Task": {type: 'bpmn:Task'},
   "ServiceTask": {type: 'bpmn:ServiceTask'},
   "UserTask": {type: 'bpmn:UserTask'},
-  "EndEvent": {type: 'bpmn:EndEvent'}
+  "EndEvent": {type: 'bpmn:EndEvent'},
+  "GatewayInclusive": {type: 'bpmn:InclusiveGateway'},
+  "GatewayExclusive": {type: 'bpmn:ExclusiveGateway'},
+  // unused: 
+  "Task": {type: 'bpmn:Task'},
+  'MessageStartEvent': {type: 'bpmn:StartEvent', eventDefinitionType: 'bpmn:MessageEventDefinition'},
 }
 const WEBSOCKET_URL = 'localhost:5678'
 
