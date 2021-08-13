@@ -3,12 +3,11 @@ import cv2.aruco as aruco
 import id_to_elements
 import aruco_detector
 import asyncio
-import sys
 
-async def show_image_with_detections(cap):
+async def show_image_with_detections(camera):
     while(True):
         # Capture frame-by-frame
-        ret, frame = cap.read()
+        ret, frame = camera.read()
         # Our operations on the frame come here
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         aruco_dict = aruco.Dictionary_get(aruco.DICT_4X4_50)
@@ -37,10 +36,8 @@ async def show_image_with_detections(cap):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-if len(sys.argv) > 1:
-    cap = aruco_detector.find_camera(int(sys.argv[1]))
-else:
-    cap = aruco_detector.find_camera(None)
-asyncio.run(show_image_with_detections(cap))
-cap.release()
+
+camera = aruco_detector.find_camera()
+asyncio.run(show_image_with_detections(camera))
+camera.release()
 cv2.destroyAllWindows()

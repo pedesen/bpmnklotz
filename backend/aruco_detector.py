@@ -1,22 +1,28 @@
 import cv2
 import cv2.aruco as aruco
 import id_to_elements
+import sys
 
-fixed_camera_port = None
 
-def find_camera(fixed_camera_port):
-    if fixed_camera_port:
-        return cv2.VideoCapture(fixed_camera_port)
+def find_camera():
+    if len(sys.argv) > 1:
+        camera_port = int(sys.argv[1])
+        print("Use camera port %s" % camera_port)
+        return cv2.VideoCapture(camera_port)
     else:
+        print("No camera port given. Try to detect camera.")
         for camera_port in range(0, 10):
             try:
-                return cv2.VideoCapture(camera_port)
+                camera = cv2.VideoCapture(camera_port)
+                print("Use camera port %s" % camera_port)
+                return camera
             except:
                 pass
+        print("No camera found.")
 
-def capture(cap):
+def capture(camera):
     # Capture frame-by-frame
-    ret, frame = cap.read()
+    ret, frame = camera.read()
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     aruco_dict = aruco.Dictionary_get(aruco.DICT_4X4_50)
     parameters = aruco.DetectorParameters_create()
